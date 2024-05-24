@@ -2,6 +2,7 @@ import RPi.GPIO as GPIO
 
 # Configuração dos pinos GPIO para os motores
 GPIO.setmode(GPIO.BCM)
+GPIO.setwarnings(False)
 GPIO.setup(17, GPIO.OUT)  # IN1
 GPIO.setup(27, GPIO.OUT)  # IN2
 GPIO.setup(22, GPIO.OUT)  # IN3

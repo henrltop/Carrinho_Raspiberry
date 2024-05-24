@@ -1,13 +1,13 @@
-from picamera import PiCamera
+from picamera2 import Picamera2
 from time import sleep
 
-camera = PiCamera()
+picam2 = Picamera2()
 
 def tirar_foto(file_path='/home/pi/image.jpg'):
-    camera.start_preview()
+    picam2.start()
     sleep(2)  # Tempo para a câmera ajustar a exposição
-    camera.capture(file_path)
-    camera.stop_preview()
+    picam2.capture_file(file_path)
+    picam2.stop()
 
 def fechar_camera():
-    camera.close()
+    picam2.close()
