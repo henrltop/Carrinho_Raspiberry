@@ -18,23 +18,22 @@ try:
                 axis_0 = joystick.get_axis(0)
                 # Eixo 3 (cima/baixo) do joystick direito para aceleração
                 axis_3 = joystick.get_axis(3)
-                
-                # Controle da velocidade com o joystick direito
-                velocidade = int((abs(axis_3) * 100))
 
                 # Controle do movimento
                 if axis_3 < -0.1:
-                    motores_frente(velocidade)
+                    motores_frente()
                 elif axis_3 > 0.1:
-                    motores_tras(velocidade)
+                    motores_tras()
                 else:
                     motores_parar()
                 
                 # Controle da direção com o joystick esquerdo
                 if axis_0 < -0.1:
-                    virar_esquerda(velocidade)
+                    virar_esquerda()
                 elif axis_0 > 0.1:
-                    virar_direita(velocidade)
+                    virar_direita()
+                else:
+                    motores_parar()
 
             elif event.type == pygame.JOYBUTTONDOWN:
                 if event.button == 6:  # Botão RB para fazer uma volta de 360 graus

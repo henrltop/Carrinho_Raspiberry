@@ -50,19 +50,6 @@ def motores_frente():
     GPIO.output(IN3_R, GPIO.HIGH)
     GPIO.output(IN4_R, GPIO.LOW)
 
-def motores_tras():
-    # Motores da esquerda
-    GPIO.output(IN1_L, GPIO.LOW)
-    GPIO.output(IN2_L, GPIO.HIGH)
-    GPIO.output(IN3_L, GPIO.LOW)
-    GPIO.output(IN4_L, GPIO.HIGH)
-    
-    # Motores da direita
-    GPIO.output(IN1_R, GPIO.LOW)
-    GPIO.output(IN2_R, GPIO.HIGH)
-    GPIO.output(IN3_R, GPIO.LOW)
-    GPIO.output(IN4_R, GPIO.HIGH)
-
 def motores_parar():
     # Motores da esquerda
     GPIO.output(IN1_L, GPIO.LOW)
@@ -76,31 +63,11 @@ def motores_parar():
     GPIO.output(IN3_R, GPIO.LOW)
     GPIO.output(IN4_R, GPIO.LOW)
 
-def virar_esquerda():
-    # Motores da esquerda para trás
-    GPIO.output(IN1_L, GPIO.LOW)
-    GPIO.output(IN2_L, GPIO.HIGH)
-    GPIO.output(IN3_L, GPIO.LOW)
-    GPIO.output(IN4_L, GPIO.HIGH)
-    
-    # Motores da direita para frente
-    GPIO.output(IN1_R, GPIO.HIGH)
-    GPIO.output(IN2_R, GPIO.LOW)
-    GPIO.output(IN3_R, GPIO.HIGH)
-    GPIO.output(IN4_R, GPIO.LOW)
-
-def virar_direita():
-    # Motores da esquerda para frente
-    GPIO.output(IN1_L, GPIO.HIGH)
-    GPIO.output(IN2_L, GPIO.LOW)
-    GPIO.output(IN3_L, GPIO.HIGH)
-    GPIO.output(IN4_L, GPIO.LOW)
-    
-    # Motores da direita para trás
-    GPIO.output(IN1_R, GPIO.LOW)
-    GPIO.output(IN2_R, GPIO.HIGH)
-    GPIO.output(IN3_R, GPIO.LOW)
-    GPIO.output(IN4_R, GPIO.HIGH)
-
-def cleanup():
+try:
+    while True:
+        motores_frente()
+        sleep(2)
+        motores_parar()
+        sleep(2)
+except KeyboardInterrupt:
     GPIO.cleanup()
