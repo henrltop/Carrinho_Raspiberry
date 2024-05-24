@@ -1,8 +1,7 @@
-import RPi.GPIO as GPIO
 from rodas import virar_direita, motores_parar
-import time
+from time import sleep
 
-def rodar():
-    virar_direita()
-    time.sleep(2)
+def volta_360():
+    virar_direita(100)  # Velocidade máxima
+    sleep(2)  # Ajuste o tempo conforme necessário para uma rotação completa
     motores_parar()
