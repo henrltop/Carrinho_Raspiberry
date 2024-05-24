@@ -5,8 +5,8 @@ from datetime import datetime
 picam2 = Picamera2()
 
 def tirar_foto():
-    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    file_path = f'/home/pi/image_{timestamp}.jpg'
+    data_e_hora = datetime.now().strftime("%Y%m%d_%H%M%S")
+    file_path = f'/home/pi/image_{data_e_hora}.jpg'
     picam2.start()
     sleep(2)  # Tempo para a câmera ajustar a exposição
     picam2.capture_file(file_path)
