@@ -1,6 +1,7 @@
 import pygame
 from rodas import motores_frente, motores_tras, motores_parar, virar_esquerda, virar_direita, cleanup
 from camera import tirar_foto, fechar_camera
+from truques import rodar
 
 # Inicializar o pygame
 pygame.init()
@@ -30,6 +31,8 @@ try:
                     motores_frente()
                 if event.button == 2:  # Botão 2 para tirar foto
                     tirar_foto()
+                if event.button == 6:  # Botão 6 para fazer uma volta de 360 graus
+                    rodar()
 
             elif event.type == pygame.JOYBUTTONUP:
                 if event.button == 8:

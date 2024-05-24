@@ -3,7 +3,7 @@ from time import sleep
 
 picam2 = Picamera2()
 
-def tirar_foto(file_path='/home/pi/image.jpg'):
+def tirar_foto(file_path='/home/fab/image.jpg'):
     picam2.start()
     sleep(2)  # Tempo para a câmera ajustar a exposição
     picam2.capture_file(file_path)
