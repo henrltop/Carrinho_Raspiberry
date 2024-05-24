@@ -1,6 +1,5 @@
 import pygame
 from rodas import motores_frente, motores_tras, motores_parar, virar_esquerda, virar_direita, cleanup
-from camera import tirar_foto, iniciar_gravacao, parar_gravacao, fechar_camera
 from truques import volta_360
 
 # Inicializar o pygame
@@ -10,9 +9,6 @@ pygame.init()
 pygame.joystick.init()
 joystick = pygame.joystick.Joystick(0)
 joystick.init()
-
-gravando = False
-arquivo_video = None
 
 try:
     while True:
@@ -41,19 +37,9 @@ try:
                     virar_direita(velocidade)
 
             elif event.type == pygame.JOYBUTTONDOWN:
-                if event.button == 2:  # Botão X para tirar foto
-                    tirar_foto()
                 if event.button == 6:  # Botão RB para fazer uma volta de 360 graus
                     volta_360()
-                if event.button == 0:  # Botão A para iniciar/parar gravação
-                    if not gravando:
-                        arquivo_video = iniciar_gravacao()
-                        gravando = True
-                    else:
-                        parar_gravacao()
-                        gravando = False
 
 except KeyboardInterrupt:
     cleanup()
-    fechar_camera()
     pygame.quit()
