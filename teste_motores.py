@@ -37,9 +37,7 @@ GPIO.setup(ENA_R, GPIO.OUT)
 GPIO.output(ENA_L, GPIO.HIGH)
 GPIO.output(ENA_R, GPIO.HIGH)
 
-def motores_frente(velocidade):
-    print("Motores para frente...")
-
+def motores_frente():
     # Motores da esquerda
     GPIO.output(IN1_L, GPIO.HIGH)
     GPIO.output(IN2_L, GPIO.LOW)
@@ -51,24 +49,8 @@ def motores_frente(velocidade):
     GPIO.output(IN2_R, GPIO.LOW)
     GPIO.output(IN3_R, GPIO.HIGH)
     GPIO.output(IN4_R, GPIO.LOW)
-
-def motores_tras(velocidade):
-    print("Motores para trás...")
-
-    # Motores da esquerda
-    GPIO.output(IN1_L, GPIO.LOW)
-    GPIO.output(IN2_L, GPIO.HIGH)
-    GPIO.output(IN3_L, GPIO.LOW)
-    GPIO.output(IN4_L, GPIO.HIGH)
-    
-    # Motores da direita
-    GPIO.output(IN1_R, GPIO.LOW)
-    GPIO.output(IN2_R, GPIO.HIGH)
-    GPIO.output(IN3_R, GPIO.LOW)
-    GPIO.output(IN4_R, GPIO.HIGH)
 
 def motores_parar():
-    print("Parando motores...")
     # Motores da esquerda
     GPIO.output(IN1_L, GPIO.LOW)
     GPIO.output(IN2_L, GPIO.LOW)
@@ -81,37 +63,11 @@ def motores_parar():
     GPIO.output(IN3_R, GPIO.LOW)
     GPIO.output(IN4_R, GPIO.LOW)
 
-def virar_esquerda(velocidade):
-    print("Virando para a esquerda...")
-
-    # Motores da esquerda para trás
-    GPIO.output(IN1_L, GPIO.LOW)
-    GPIO.output(IN2_L, GPIO.HIGH)
-    GPIO.output(IN3_L, GPIO.LOW)
-    GPIO.output(IN4_L, GPIO.HIGH)
-    
-    # Motores da direita para frente
-    GPIO.output(IN1_R, GPIO.HIGH)
-    GPIO.output(IN2_R, GPIO.LOW)
-    GPIO.output(IN3_R, GPIO.HIGH)
-    GPIO.output(IN4_R, GPIO.LOW)
-
-def virar_direita(velocidade):
-    print("Virando para a direita...")
-
-    # Motores da esquerda para frente
-    GPIO.output(IN1_L, GPIO.HIGH)
-    GPIO.output(IN2_L, GPIO.LOW)
-    GPIO.output(IN3_L, GPIO.HIGH)
-    GPIO.output(IN4_L, GPIO.LOW)
-    
-    # Motores da direita para trás
-    GPIO.output(IN1_R, GPIO.LOW)
-    GPIO.output(IN2_R, GPIO.HIGH)
-    GPIO.output(IN3_R, GPIO.LOW)
-    GPIO.output(IN4_R, GPIO.HIGH)
-
-def cleanup():
-    print("Limpando GPIO...")
-    pwm_l.stop()
-    pwm_r.stop()
+try:
+    while True:
+        motores_frente()
+        sleep(2)
+        motores_parar()
+        sleep(2)
+except KeyboardInterrupt:
+    GPIO.cleanup()
