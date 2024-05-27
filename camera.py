@@ -1,4 +1,4 @@
-from picamera2 import Picamera2, MjpegEncoder
+from picamera2 import Picamera2, H264Encoder
 from time import sleep
 from datetime import datetime
 import os
@@ -25,7 +25,7 @@ def iniciar_gravacao():
     criar_diretorio_se_nao_existir(diretorio)
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
     file_path = os.path.join(diretorio, f'video_{timestamp}.h264')
-    encoder = MjpegEncoder()
+    encoder = H264Encoder()
     picam2.start()
     picam2.start_recording(encoder, output=file_path)
     print(f"Gravação iniciada: {file_path}")
