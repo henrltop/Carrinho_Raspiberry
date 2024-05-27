@@ -17,8 +17,11 @@ def tirar_foto():
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
     file_path = os.path.join(diretorio, f'image_{timestamp}.jpg')
     picam2.start_preview(Preview.NULL)
+    picam2.start()
+    sleep(2)  # Tempo para a câmera ajustar a exposição
     picam2.capture_file(file_path)
     picam2.stop_preview()
+    picam2.stop()
     print(f"Foto salva como {file_path}")
 
 def iniciar_gravacao():
