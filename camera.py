@@ -1,4 +1,4 @@
-from picamera2 import Picamera2
+from picamera2 import Picamera2, MjpegEncoder
 from time import sleep
 from datetime import datetime
 import os
@@ -10,7 +10,7 @@ def criar_diretorio_se_nao_existir(diretorio):
         os.makedirs(diretorio)
 
 def tirar_foto():
-    diretorio = '/home/fab/fotos'
+    diretorio = '/home/fab/Imagens'
     criar_diretorio_se_nao_existir(diretorio)
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
     file_path = os.path.join(diretorio, f'image_{timestamp}.jpg')
@@ -21,12 +21,13 @@ def tirar_foto():
     print(f"Foto salva como {file_path}")
 
 def iniciar_gravacao():
-    diretorio = '/home/fab/videos'
+    diretorio = '/home/fab/Vídeos'
     criar_diretorio_se_nao_existir(diretorio)
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
     file_path = os.path.join(diretorio, f'video_{timestamp}.h264')
+    encoder = MjpegEncoder()
     picam2.start()
-    picam2.start_recording(output=file_path)
+    picam2.start_recording(encoder, output=file_path)
     print(f"Gravação iniciada: {file_path}")
     return file_path
 
