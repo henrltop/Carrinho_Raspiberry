@@ -10,7 +10,7 @@ def criar_diretorio_se_nao_existir(diretorio):
         os.makedirs(diretorio)
 
 def tirar_foto():
-    diretorio = '/home/pi/fotos'
+    diretorio = '/home/fab/fotos'
     criar_diretorio_se_nao_existir(diretorio)
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
     file_path = os.path.join(diretorio, f'image_{timestamp}.jpg')
