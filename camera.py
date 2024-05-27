@@ -21,7 +21,7 @@ def tirar_foto():
     print(f"Foto salva como {file_path}")
 
 def iniciar_gravacao():
-    diretorio = '/home/pi/videos'
+    diretorio = '/home/fab/videos'
     criar_diretorio_se_nao_existir(diretorio)
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
     file_path = os.path.join(diretorio, f'video_{timestamp}.h264')
