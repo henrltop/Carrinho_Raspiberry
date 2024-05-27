@@ -22,6 +22,8 @@ try:
             if event.type == pygame.JOYAXISMOTION:
                 # Eixo 0 (esquerda/direita) do joystick esquerdo para rotação
                 axis_0 = joystick.get_axis(0)
+                # Eixo 1 (cima/baixo) do joystick esquerdo para direção
+                axis_1 = joystick.get_axis(1)
                 # Eixo 3 (cima/baixo) do joystick direito para aceleração
                 axis_3 = joystick.get_axis(3)
                 
@@ -47,6 +49,8 @@ try:
                 elif axis_0 > 0.1:
                     print("Virando para a direita...")
                     virar_direita(velocidade)
+                else:
+                    motores_parar()
 
             elif event.type == pygame.JOYBUTTONDOWN:
                 if event.button == 2:  # Botão X para tirar foto

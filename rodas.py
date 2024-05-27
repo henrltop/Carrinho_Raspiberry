@@ -43,6 +43,7 @@ pwm_l.start(0)
 pwm_r.start(0)
 
 def motores_frente(velocidade):
+    print("Motores para frente...")
     # Motores da esquerda
     GPIO.output(IN1_L, GPIO.HIGH)
     GPIO.output(IN2_L, GPIO.LOW)
@@ -58,6 +59,7 @@ def motores_frente(velocidade):
     pwm_r.ChangeDutyCycle(velocidade)
 
 def motores_tras(velocidade):
+    print("Motores para trás...")
     # Motores da esquerda
     GPIO.output(IN1_L, GPIO.LOW)
     GPIO.output(IN2_L, GPIO.HIGH)
@@ -73,6 +75,7 @@ def motores_tras(velocidade):
     pwm_r.ChangeDutyCycle(velocidade)
 
 def motores_parar():
+    print("Parando motores...")
     # Motores da esquerda
     GPIO.output(IN1_L, GPIO.LOW)
     GPIO.output(IN2_L, GPIO.LOW)
@@ -88,6 +91,7 @@ def motores_parar():
     pwm_r.ChangeDutyCycle(0)
 
 def virar_esquerda(velocidade):
+    print("Virando para a esquerda...")
     # Motores da esquerda para trás
     GPIO.output(IN1_L, GPIO.LOW)
     GPIO.output(IN2_L, GPIO.HIGH)
@@ -103,6 +107,7 @@ def virar_esquerda(velocidade):
     pwm_r.ChangeDutyCycle(velocidade)
 
 def virar_direita(velocidade):
+    print("Virando para a direita...")
     # Motores da esquerda para frente
     GPIO.output(IN1_L, GPIO.HIGH)
     GPIO.output(IN2_L, GPIO.LOW)
@@ -118,6 +123,7 @@ def virar_direita(velocidade):
     pwm_r.ChangeDutyCycle(velocidade)
 
 def cleanup():
+    print("Limpando GPIO...")
     pwm_l.stop()
     pwm_r.stop()
     GPIO.cleanup()
