@@ -33,12 +33,18 @@ GPIO.setup(IN3_R, GPIO.OUT)
 GPIO.setup(IN4_R, GPIO.OUT)
 GPIO.setup(ENA_R, GPIO.OUT)
 
-# Ativar os pinos de ENA para os motores
-GPIO.output(ENA_L, GPIO.HIGH)
-GPIO.output(ENA_R, GPIO.HIGH)
+# Inicializar PWM nos pinos ENA
+pwm_l = GPIO.PWM(ENA_L, 1000)  # Frequência de 1kHz
+pwm_r = GPIO.PWM(ENA_R, 1000)  # Frequência de 1kHz
+pwm_l.start(0)
+pwm_r.start(0)
 
 def motores_frente(velocidade):
     print("Motores para frente...")
+
+    # Configurar velocidade
+    pwm_l.ChangeDutyCycle(velocidade)
+    pwm_r.ChangeDutyCycle(velocidade)
 
     # Motores da esquerda
     GPIO.output(IN1_L, GPIO.HIGH)
@@ -55,6 +61,10 @@ def motores_frente(velocidade):
 def motores_tras(velocidade):
     print("Motores para trás...")
 
+    # Configurar velocidade
+    pwm_l.ChangeDutyCycle(velocidade)
+    pwm_r.ChangeDutyCycle(velocidade)
+
     # Motores da esquerda
     GPIO.output(IN1_L, GPIO.LOW)
     GPIO.output(IN2_L, GPIO.HIGH)
@@ -69,6 +79,9 @@ def motores_tras(velocidade):
 
 def motores_parar():
     print("Parando motores...")
+    pwm_l.ChangeDutyCycle(0)
+    pwm_r.ChangeDutyCycle(0)
+
     # Motores da esquerda
     GPIO.output(IN1_L, GPIO.LOW)
     GPIO.output(IN2_L, GPIO.LOW)
@@ -84,6 +97,10 @@ def motores_parar():
 def virar_esquerda(velocidade):
     print("Virando para a esquerda...")
 
+    # Configurar velocidade
+    pwm_l.ChangeDutyCycle(velocidade)
+    pwm_r.ChangeDutyCycle(velocidade)
+
     # Motores da esquerda para trás
     GPIO.output(IN1_L, GPIO.LOW)
     GPIO.output(IN2_L, GPIO.HIGH)
@@ -98,6 +115,10 @@ def virar_esquerda(velocidade):
 
 def virar_direita(velocidade):
     print("Virando para a direita...")
+
+    # Configurar velocidade
+    pwm_l.ChangeDutyCycle(velocidade)
+    pwm_r.ChangeDutyCycle(velocidade)
 
     # Motores da esquerda para frente
     GPIO.output(IN1_L, GPIO.HIGH)
@@ -115,3 +136,4 @@ def cleanup():
     print("Limpando GPIO...")
     pwm_l.stop()
     pwm_r.stop()
+    GPIO.cleanup()
