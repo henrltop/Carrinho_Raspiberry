@@ -17,7 +17,7 @@ IN1_R = 5
 IN2_R = 6
 IN3_R = 13
 IN4_R = 19
-ENA_R = 12
+ENB_R = 12
 
 # Configuração dos pinos de controle (Esquerda)
 GPIO.setup(IN1_L, GPIO.OUT)
@@ -31,11 +31,11 @@ GPIO.setup(IN1_R, GPIO.OUT)
 GPIO.setup(IN2_R, GPIO.OUT)
 GPIO.setup(IN3_R, GPIO.OUT)
 GPIO.setup(IN4_R, GPIO.OUT)
-GPIO.setup(ENA_R, GPIO.OUT)
+GPIO.setup(ENB_R, GPIO.OUT)
 
-# Inicializar PWM nos pinos ENA
+# Inicializar PWM nos pinos ENA e ENB
 pwm_l = GPIO.PWM(ENA_L, 1000)  # Frequência de 1kHz
-pwm_r = GPIO.PWM(ENA_R, 1000)  # Frequência de 1kHz
+pwm_r = GPIO.PWM(ENB_R, 1000)  # Frequência de 1kHz
 pwm_l.start(0)
 pwm_r.start(0)
 
