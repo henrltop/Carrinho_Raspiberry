@@ -12,13 +12,6 @@ from rodas import set_speed, cleanup
 # Inicializar o pygame
 pygame.init()
 
-# Configura a tela
-screen = pygame.display.set_mode((640, 480))
-pygame.display.set_caption('Controle do Rover')
-
-# Definir fonte para exibir texto na tela
-font = pygame.font.Font(None, 36)
-
 # Dicionário para mapear teclas a porcentagens de velocidade
 tecla_para_velocidade = {
     pygame.K_1: 10,
@@ -48,12 +41,6 @@ try:
                     velocidade_atual = tecla_para_velocidade[event.key]
                     print(f'Setando velocidade para {velocidade_atual}%')
                     set_speed(velocidade_atual)
-        
-        # Atualizar a tela
-        screen.fill((0, 0, 0))  # Limpa a tela com preto
-        text = font.render(f'Velocidade Atual: {velocidade_atual}%', True, (255, 255, 255))
-        screen.blit(text, (50, 50))
-        pygame.display.flip()
 
 except KeyboardInterrupt:
     pass
