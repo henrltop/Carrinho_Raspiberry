@@ -29,6 +29,8 @@ tecla_para_velocidade = {
 # Variável para armazenar a velocidade atual
 velocidade_atual = 0
 
+print("Iniciando loop principal")
+
 # Loop principal
 running = True
 try:
@@ -37,13 +39,14 @@ try:
             if event.type == pygame.QUIT:
                 running = False
             elif event.type == pygame.KEYDOWN:
+                print(f"Tecla pressionada: {pygame.key.name(event.key)}")
                 if event.key in tecla_para_velocidade:
                     velocidade_atual = tecla_para_velocidade[event.key]
                     print(f'Setando velocidade para {velocidade_atual}%')
                     set_speed(velocidade_atual)
-
 except KeyboardInterrupt:
     pass
 finally:
     cleanup()
     pygame.quit()
+    print("Encerrando o programa")
