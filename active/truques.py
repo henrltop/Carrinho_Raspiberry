@@ -1,4 +1,4 @@
-from rodas import virar_direita, motores_parar
+from Carrinho_Raspiberry.active.rodas import virar_direita, motores_parar
 from time import sleep
 
 def volta_360():
