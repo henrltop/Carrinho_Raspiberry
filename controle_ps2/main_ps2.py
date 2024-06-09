@@ -55,13 +55,13 @@ while running:
             if event.button == BUTTON_R2:
                 acelerar_gradualmente()
             elif event.button == BUTTON_L1:
-                take_photo()
+                tirar_foto()
             elif event.button == BUTTON_TRIANGLE:
                 if not gravando_video:
-                    start_video_recording()
+                    iniciar_gravacao()
                     gravando_video = True
                 else:
-                    stop_video_recording()
+                    parar_gravacao()
                     gravando_video = False
             elif event.button == BUTTON_CIRCLE:
                 volta_360()
