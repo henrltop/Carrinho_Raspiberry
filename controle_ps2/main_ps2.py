@@ -22,69 +22,55 @@ joystick.init()
 
 print(f"Controle detectado: {joystick.get_name()}")
 
-# Mapeamento dos botões do controle PS2
-BUTTON_TRIANGLE = 0
-BUTTON_CIRCLE = 1
+# Mapear botões
 BUTTON_X = 2
+BUTTON_O = 1
+BUTTON_TRIANGLE = 0
 BUTTON_SQUARE = 3
 BUTTON_L1 = 4
-BUTTON_R1 = 5
 BUTTON_L2 = 6
+BUTTON_R1 = 5
 BUTTON_R2 = 7
 
-# Função para acelerar gradualmente
-def acelerar_gradualmente():
-    velocidade = 0.1  # 10% da velocidade máxima
-    incremento = 0.1  # Incremento de 10%
-    max_velocidade = 1.0  # 100% da velocidade máxima
-
-    while velocidade < max_velocidade:
-        motores_frente(int(velocidade * 100))  # Definir velocidade em percentual
-        velocidade += incremento
-        pygame.time.wait(500)  # Espera 0.5 segundos antes de incrementar a velocidade
-    motores_frente(int(max_velocidade * 100))
-
 # Loop principal
-running = True
-gravando_video = False
-while running:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            running = False
-        elif event.type == pygame.JOYBUTTONDOWN:
-            if event.button == BUTTON_R2:
-                acelerar_gradualmente()
-            elif event.button == BUTTON_L1:
-                tirar_foto()
-            elif event.button == BUTTON_TRIANGLE:
-                if not gravando_video:
-                    iniciar_gravacao()
-                    gravando_video = True
-                else:
-                    parar_gravacao()
-                    gravando_video = False
-            elif event.button == BUTTON_CIRCLE:
-                volta_360()
-        elif event.type == pygame.JOYAXISMOTION:
-            axis_0 = joystick.get_axis(0)
-            axis_3 = joystick.get_axis(3)
+try:
+    recording = False
+    while True:
+        for event in pygame.event.get():
+            if event.type == pygame.JOYBUTTONDOWN:
+                if joystick.get_button(BUTTON_X):
+                    tirar_foto()
+                elif joystick.get_button(BUTTON_O):
+                    if not recording:
+                        iniciar_gravacao()
+                        recording = True
+                    else:
+                        parar_gravacao()
+                        recording = False
+                elif joystick.get_button(BUTTON_TRIANGLE):
+                    volta_360()
             
-            velocidade = int((abs(axis_3) * 100))
-            if axis_3 < -0.1:
-                motores_frente(velocidade)
-            elif axis_3 > 0.1:
-                motores_tras(velocidade)
-            else:
-                motores_parar()
-            
-            if axis_0 < -0.1:
-                virar_esquerda()
-            elif axis_0 > 0.1:
-                virar_direita()
-            else:
-                motores_parar()
+            if event.type == pygame.JOYAXISMOTION:
+                axis_1 = joystick.get_axis(1)  # Eixo vertical do joystick esquerdo
+                axis_3 = joystick.get_axis(3)  # Eixo vertical do joystick direito
 
-# Encerra o Pygame
-pygame.quit()
-cleanup()
-sys.exit()
+                # Mapear valores do joystick (-1 a 1) para duty cycle PWM (0 a 100)
+                velocidade_frente_tras = int((abs(axis_1) * 100))
+                velocidade_esquerda_direita = int((abs(axis_3) * 100))
+
+                if axis_1 < -0.1:
+                    motores_frente(velocidade_frente_tras)
+                elif axis_1 > 0.1:
+                    motores_tras(velocidade_frente_tras)
+                else:
+                    motores_parar()
+
+                if axis_3 < -0.1:
+                    virar_esquerda(velocidade_esquerda_direita)
+                elif axis_3 > 0.1:
+                    virar_direita(velocidade_esquerda_direita)
+                else:
+                    motores_parar()
+
+except KeyboardInterrupt:
+    cleanup()
