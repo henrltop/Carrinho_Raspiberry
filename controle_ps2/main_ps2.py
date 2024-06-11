@@ -59,15 +59,19 @@ try:
                 velocidade_esquerda_direita = int((abs(axis_3) * 100))
 
                 if axis_1 < -0.1:
+                    print(f"Movendo para frente com velocidade {velocidade_frente_tras}")
                     motores_frente(velocidade_frente_tras)
                 elif axis_1 > 0.1:
+                    print(f"Movendo para trás com velocidade {velocidade_frente_tras}")
                     motores_tras(velocidade_frente_tras)
                 else:
                     motores_parar()
 
                 if axis_3 < -0.1:
+                    print(f"Virando à esquerda com velocidade {velocidade_esquerda_direita}")
                     virar_esquerda(velocidade_esquerda_direita)
                 elif axis_3 > 0.1:
+                    print(f"Virando à direita com velocidade {velocidade_esquerda_direita}")
                     virar_direita(velocidade_esquerda_direita)
                 else:
                     motores_parar()

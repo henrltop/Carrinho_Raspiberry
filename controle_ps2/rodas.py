@@ -37,74 +37,86 @@ pwm_rf.start(0)
 pwm_rr.start(0)
 
 def motores_frente(velocidade):
-    print(f"Motores para frente com velocidade {velocidade}")
-    pwm_lf.ChangeDutyCycle(velocidade)
-    pwm_lr.ChangeDutyCycle(velocidade)
-    pwm_rf.ChangeDutyCycle(velocidade)
-    pwm_rr.ChangeDutyCycle(velocidade)
+    if 0 <= velocidade <= 100:
+        print(f"Motores para frente com velocidade {velocidade}")
+        pwm_lf.ChangeDutyCycle(velocidade)
+        pwm_lr.ChangeDutyCycle(velocidade)
+        pwm_rf.ChangeDutyCycle(velocidade)
+        pwm_rr.ChangeDutyCycle(velocidade)
 
-    GPIO.output(IN1_LF, GPIO.HIGH)
-    GPIO.output(IN2_LF, GPIO.LOW)
-    GPIO.output(IN1_LR, GPIO.HIGH)
-    GPIO.output(IN2_LR, GPIO.LOW)
-    GPIO.output(IN1_RF, GPIO.HIGH)
-    GPIO.output(IN2_RF, GPIO.LOW)
-    GPIO.output(IN1_RR, GPIO.HIGH)
-    GPIO.output(IN2_RR, GPIO.LOW)
+        GPIO.output(IN1_LF, GPIO.HIGH)
+        GPIO.output(IN2_LF, GPIO.LOW)
+        GPIO.output(IN1_LR, GPIO.HIGH)
+        GPIO.output(IN2_LR, GPIO.LOW)
+        GPIO.output(IN1_RF, GPIO.HIGH)
+        GPIO.output(IN2_RF, GPIO.LOW)
+        GPIO.output(IN1_RR, GPIO.HIGH)
+        GPIO.output(IN2_RR, GPIO.LOW)
+    else:
+        print(f"Velocidade inválida: {velocidade}")
 
 def motores_tras(velocidade):
-    print(f"Motores para trás com velocidade {velocidade}")
-    pwm_lf.ChangeDutyCycle(velocidade)
-    pwm_lr.ChangeDutyCycle(velocidade)
-    pwm_rf.ChangeDutyCycle(velocidade)
-    pwm_rr.ChangeDutyCycle(velocidade)
+    if 0 <= velocidade <= 100:
+        print(f"Motores para trás com velocidade {velocidade}")
+        pwm_lf.ChangeDutyCycle(velocidade)
+        pwm_lr.ChangeDutyCycle(velocidade)
+        pwm_rf.ChangeDutyCycle(velocidade)
+        pwm_rr.ChangeDutyCycle(velocidade)
 
-    GPIO.output(IN1_LF, GPIO.LOW)
-    GPIO.output(IN2_LF, GPIO.HIGH)
-    GPIO.output(IN1_LR, GPIO.LOW)
-    GPIO.output(IN2_LR, GPIO.HIGH)
-    GPIO.output(IN1_RF, GPIO.LOW)
-    GPIO.output(IN2_RF, GPIO.HIGH)
-    GPIO.output(IN1_RR, GPIO.LOW)
-    GPIO.output(IN2_RR, GPIO.HIGH)
+        GPIO.output(IN1_LF, GPIO.LOW)
+        GPIO.output(IN2_LF, GPIO.HIGH)
+        GPIO.output(IN1_LR, GPIO.LOW)
+        GPIO.output(IN2_LR, GPIO.HIGH)
+        GPIO.output(IN1_RF, GPIO.LOW)
+        GPIO.output(IN2_RF, GPIO.HIGH)
+        GPIO.output(IN1_RR, GPIO.LOW)
+        GPIO.output(IN2_RR, GPIO.HIGH)
+    else:
+        print(f"Velocidade inválida: {velocidade}")
 
 def virar_esquerda(velocidade):
-    print(f"Virando à esquerda com velocidade {velocidade}")
-    pwm_lf.ChangeDutyCycle(velocidade)
-    pwm_lr.ChangeDutyCycle(velocidade)
-    pwm_rf.ChangeDutyCycle(velocidade)
-    pwm_rr.ChangeDutyCycle(velocidade)
+    if 0 <= velocidade <= 100:
+        print(f"Virando à esquerda com velocidade {velocidade}")
+        pwm_lf.ChangeDutyCycle(velocidade)
+        pwm_lr.ChangeDutyCycle(velocidade)
+        pwm_rf.ChangeDutyCycle(velocidade)
+        pwm_rr.ChangeDutyCycle(velocidade)
 
-    # Motores da esquerda para trás
-    GPIO.output(IN1_LF, GPIO.LOW)
-    GPIO.output(IN2_LF, GPIO.HIGH)
-    GPIO.output(IN1_LR, GPIO.LOW)
-    GPIO.output(IN2_LR, GPIO.HIGH)
-    
-    # Motores da direita para frente
-    GPIO.output(IN1_RF, GPIO.HIGH)
-    GPIO.output(IN2_RF, GPIO.LOW)
-    GPIO.output(IN1_RR, GPIO.HIGH)
-    GPIO.output(IN2_RR, GPIO.LOW)
+        # Motores da esquerda para trás
+        GPIO.output(IN1_LF, GPIO.LOW)
+        GPIO.output(IN2_LF, GPIO.HIGH)
+        GPIO.output(IN1_LR, GPIO.LOW)
+        GPIO.output(IN2_LR, GPIO.HIGH)
+        
+        # Motores da direita para frente
+        GPIO.output(IN1_RF, GPIO.HIGH)
+        GPIO.output(IN2_RF, GPIO.LOW)
+        GPIO.output(IN1_RR, GPIO.HIGH)
+        GPIO.output(IN2_RR, GPIO.LOW)
+    else:
+        print(f"Velocidade inválida: {velocidade}")
 
 def virar_direita(velocidade):
-    print(f"Virando à direita com velocidade {velocidade}")
-    pwm_lf.ChangeDutyCycle(velocidade)
-    pwm_lr.ChangeDutyCycle(velocidade)
-    pwm_rf.ChangeDutyCycle(velocidade)
-    pwm_rr.ChangeDutyCycle(velocidade)
+    if 0 <= velocidade <= 100:
+        print(f"Virando à direita com velocidade {velocidade}")
+        pwm_lf.ChangeDutyCycle(velocidade)
+        pwm_lr.ChangeDutyCycle(velocidade)
+        pwm_rf.ChangeDutyCycle(velocidade)
+        pwm_rr.ChangeDutyCycle(velocidade)
 
-    # Motores da esquerda para frente
-    GPIO.output(IN1_LF, GPIO.HIGH)
-    GPIO.output(IN2_LF, GPIO.LOW)
-    GPIO.output(IN1_LR, GPIO.HIGH)
-    GPIO.output(IN2_LR, GPIO.LOW)
-    
-    # Motores da direita para trás
-    GPIO.output(IN1_RF, GPIO.LOW)
-    GPIO.output(IN2_RF, GPIO.HIGH)
-    GPIO.output(IN1_RR, GPIO.LOW)
-    GPIO.output(IN2_RR, GPIO.HIGH)
+        # Motores da esquerda para frente
+        GPIO.output(IN1_LF, GPIO.HIGH)
+        GPIO.output(IN2_LF, GPIO.LOW)
+        GPIO.output(IN1_LR, GPIO.HIGH)
+        GPIO.output(IN2_LR, GPIO.LOW)
+        
+        # Motores da direita para trás
+        GPIO.output(IN1_RF, GPIO.LOW)
+        GPIO.output(IN2_RF, GPIO.HIGH)
+        GPIO.output(IN1_RR, GPIO.LOW)
+        GPIO.output(IN2_RR, GPIO.HIGH)
+    else:
+        print(f"Velocidade inválida: {velocidade}")
 
 def motores_parar():
     print("Parando motores")
