@@ -109,23 +109,28 @@ try:
                 elif joystick.get_button(BUTTON_SQUARE):  # Botão Quadrado
                     parar_completamente()
 
-        axis_0 = joystick.get_axis(0)  # Eixo horizontal do joystick esquerdo
-        r2_pressed = joystick.get_button(BUTTON_R2)  # Verifica se o gatilho direito está pressionado
+        try:
+            axis_0 = joystick.get_axis(0)  # Eixo horizontal do joystick esquerdo
+            print(f"Eixo horizontal (axis_0): {axis_0}")
+            r2_pressed = joystick.get_button(BUTTON_R2)  # Verifica se o gatilho direito está pressionado
+            print(f"Gatilho direito (BUTTON_R2): {r2_pressed}")
 
-        # Verificar se o gatilho direito está pressionado
-        if r2_pressed:
-            if axis_0 < -0.1:
-                velocidade_curva = int(abs(axis_0) * velocidade_atual)
-                print(f"Virando à esquerda com velocidade {velocidade_curva}")
-                virar_esquerda(velocidade_curva)
-            elif axis_0 > 0.1:
-                velocidade_curva = int(abs(axis_0) * velocidade_atual)
-                print(f"Virando à direita com velocidade {velocidade_curva}")
-                virar_direita(velocidade_curva)
+            # Verificar se o gatilho direito está pressionado
+            if r2_pressed:
+                if axis_0 < -0.1:
+                    velocidade_curva = int(abs(axis_0) * velocidade_atual)
+                    print(f"Virando à esquerda com velocidade {velocidade_curva}")
+                    virar_esquerda(velocidade_curva)
+                elif axis_0 > 0.1:
+                    velocidade_curva = int(abs(axis_0) * velocidade_atual)
+                    print(f"Virando à direita com velocidade {velocidade_curva}")
+                    virar_direita(velocidade_curva)
+                else:
+                    controlar_movimento()
             else:
-                controlar_movimento()
-        else:
-            motores_parar()
+                motores_parar()
+        except pygame.error as e:
+            print(f"Erro ao ler o joystick: {e}")
 
 except KeyboardInterrupt:
     cleanup()
