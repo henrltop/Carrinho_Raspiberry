@@ -3,6 +3,7 @@ import sys
 from rodas import motores_frente, motores_tras, motores_parar, cleanup
 from camera import tirar_foto, iniciar_gravacao, parar_gravacao
 from truques import volta_360
+from time import sleep
 
 # Inicializa o Pygame
 pygame.init()
@@ -71,6 +72,9 @@ def diminuir_velocidade():
 # Função para alternar o modo de ré
 def alternar_modo_re():
     global modo_re
+    motores_parar()
+    print("Parando motores para alternar direção")
+    sleep(1)  # Espera 1 segundo para garantir que os motores parem completamente
     modo_re = not modo_re
     if modo_re:
         print("Modo de ré ativado")
