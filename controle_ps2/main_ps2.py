@@ -1,9 +1,8 @@
 import pygame
 import sys
-from rodas import motores_frente, motores_tras, motores_parar, cleanup
+from rodas import motores_frente, motores_tras, motores_parar, virar_esquerda, virar_direita, cleanup
 from camera import tirar_foto, iniciar_gravacao, parar_gravacao
 from truques import volta_360
-from time import sleep
 
 # Inicializa o Pygame
 pygame.init()
@@ -115,6 +114,18 @@ try:
                     alternar_modo_re()
                 elif joystick.get_button(BUTTON_SQUARE):  # Botão Quadrado
                     parar_completamente()
+
+            if event.type == pygame.JOYAXISMOTION:
+                axis_0 = joystick.get_axis(0)  # Eixo horizontal do joystick esquerdo
+
+                if axis_0 < -0.1:
+                    print(f"Virando à esquerda com intensidade {int(abs(axis_0) * 100)}")
+                    virar_esquerda(int(abs(axis_0) * 100))
+                elif axis_0 > 0.1:
+                    print(f"Virando à direita com intensidade {int(abs(axis_0) * 100)}")
+                    virar_direita(int(abs(axis_0) * 100))
+                else:
+                    motores_parar()
 
 except KeyboardInterrupt:
     cleanup()
