@@ -1,6 +1,6 @@
 import pygame
 import sys
-from rodas import motores_frente, motores_parar, cleanup
+from rodas import motores_frente, motores_tras, motores_parar, cleanup
 from camera import tirar_foto, iniciar_gravacao, parar_gravacao
 from truques import volta_360
 
@@ -31,11 +31,12 @@ BUTTON_L1 = 4
 BUTTON_L2 = 6
 BUTTON_R1 = 5  # Botão em cima do gatilho direito
 BUTTON_R2 = 7  # Gatilho direito
-BUTTON_L1 = 4  # Botão em cima do gatilho esquerdo
-BUTTON_L2 = 6  # Gatilho esquerdo
 
 # Variável para armazenar a velocidade atual
 velocidade_atual = 0
+
+# Variável para armazenar o estado do modo de ré
+modo_re = False
 
 # Função para aumentar a velocidade
 def aumentar_velocidade():
@@ -45,7 +46,10 @@ def aumentar_velocidade():
         if velocidade_atual > 100:
             velocidade_atual = 100
         print(f"Aumentando velocidade para {velocidade_atual}")
-        motores_frente(velocidade_atual)
+        if modo_re:
+            motores_tras(velocidade_atual)
+        else:
+            motores_frente(velocidade_atual)
     else:
         print("Velocidade máxima atingida")
 
@@ -57,9 +61,23 @@ def diminuir_velocidade():
         if velocidade_atual < 0:
             velocidade_atual = 0
         print(f"Diminuindo velocidade para {velocidade_atual}")
-        motores_frente(velocidade_atual)
+        if modo_re:
+            motores_tras(velocidade_atual)
+        else:
+            motores_frente(velocidade_atual)
     else:
         print("Velocidade mínima atingida")
+
+# Função para alternar o modo de ré
+def alternar_modo_re():
+    global modo_re
+    modo_re = not modo_re
+    if modo_re:
+        print("Modo de ré ativado")
+        motores_tras(velocidade_atual)
+    else:
+        print("Modo de ré desativado")
+        motores_frente(velocidade_atual)
 
 # Loop principal
 try:
@@ -82,6 +100,8 @@ try:
                     aumentar_velocidade()
                 elif joystick.get_button(BUTTON_L1):  # Botão em cima do gatilho esquerdo
                     diminuir_velocidade()
+                elif joystick.get_button(BUTTON_R2):  # Gatilho direito
+                    alternar_modo_re()
 
 except KeyboardInterrupt:
     cleanup()
