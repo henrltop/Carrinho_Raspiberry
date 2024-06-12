@@ -110,10 +110,10 @@ try:
                     parar_completamente()
 
         axis_0 = joystick.get_axis(0)  # Eixo horizontal do joystick esquerdo
-        r2_value = joystick.get_axis(5)  # Eixo do gatilho direito
+        r2_pressed = joystick.get_button(BUTTON_R2)  # Verifica se o gatilho direito está pressionado
 
         # Verificar se o gatilho direito está pressionado
-        if r2_value > -0.5:  # Alguns controladores retornam valores negativos, ajuste conforme necessário
+        if r2_pressed:
             if axis_0 < -0.1:
                 velocidade_curva = int(abs(axis_0) * velocidade_atual)
                 print(f"Virando à esquerda com velocidade {velocidade_curva}")
