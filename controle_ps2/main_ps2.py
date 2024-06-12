@@ -3,7 +3,6 @@ import sys
 from rodas import motores_frente, motores_parar, cleanup
 from camera import tirar_foto, iniciar_gravacao, parar_gravacao
 from truques import volta_360
-from time import sleep
 
 # Inicializa o Pygame
 pygame.init()
@@ -30,8 +29,10 @@ BUTTON_TRIANGLE = 0
 BUTTON_SQUARE = 3
 BUTTON_L1 = 4
 BUTTON_L2 = 6
-BUTTON_R1 = 5
-BUTTON_R2 = 7
+BUTTON_R1 = 5  # Botão em cima do gatilho direito
+BUTTON_R2 = 7  # Gatilho direito
+BUTTON_L1 = 4  # Botão em cima do gatilho esquerdo
+BUTTON_L2 = 6  # Gatilho esquerdo
 
 # Variável para armazenar a velocidade atual
 velocidade_atual = 0
@@ -47,6 +48,18 @@ def aumentar_velocidade():
         motores_frente(velocidade_atual)
     else:
         print("Velocidade máxima atingida")
+
+# Função para diminuir a velocidade
+def diminuir_velocidade():
+    global velocidade_atual
+    if velocidade_atual > 0:
+        velocidade_atual -= 10
+        if velocidade_atual < 0:
+            velocidade_atual = 0
+        print(f"Diminuindo velocidade para {velocidade_atual}")
+        motores_frente(velocidade_atual)
+    else:
+        print("Velocidade mínima atingida")
 
 # Loop principal
 try:
@@ -65,16 +78,10 @@ try:
                         recording = False
                 elif joystick.get_button(BUTTON_TRIANGLE):
                     volta_360()
-                elif joystick.get_button(BUTTON_R2):
-                    while joystick.get_button(BUTTON_R2):
-                        aumentar_velocidade()
-                        sleep(0.5)  # Incremento a cada 0.5 segundos
-
-            if event.type == pygame.JOYBUTTONUP:
-                if event.button == BUTTON_R2:
-                    print("Parando motores - botão R2 liberado")
-                    motores_parar()
-                    velocidade_atual = 0
+                elif joystick.get_button(BUTTON_R1):  # Botão em cima do gatilho direito
+                    aumentar_velocidade()
+                elif joystick.get_button(BUTTON_L1):  # Botão em cima do gatilho esquerdo
+                    diminuir_velocidade()
 
 except KeyboardInterrupt:
     cleanup()
