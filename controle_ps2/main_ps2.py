@@ -83,6 +83,13 @@ def alternar_modo_re():
         print("Modo de ré desativado")
         motores_frente(velocidade_atual)
 
+# Função para parar completamente
+def parar_completamente():
+    global velocidade_atual
+    velocidade_atual = 0
+    print("Parando completamente")
+    motores_parar()
+
 # Loop principal
 try:
     recording = False
@@ -106,6 +113,8 @@ try:
                     diminuir_velocidade()
                 elif joystick.get_button(BUTTON_R2):  # Gatilho direito
                     alternar_modo_re()
+                elif joystick.get_button(BUTTON_SQUARE):  # Botão Quadrado
+                    parar_completamente()
 
 except KeyboardInterrupt:
     cleanup()
