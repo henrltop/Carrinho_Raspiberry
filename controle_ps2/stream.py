@@ -7,6 +7,7 @@ def iniciar_streaming():
         print("Erro ao abrir a câmera")
         return
 
+    # Reduzir a resolução e a taxa de quadros para melhorar o desempenho
     width = 320
     height = 240
     fps = 15
@@ -15,6 +16,7 @@ def iniciar_streaming():
     cap.set(cv2.CAP_PROP_FRAME_HEIGHT, height)
     cap.set(cv2.CAP_PROP_FPS, fps)
 
+    # Comando ffmpeg para transmitir vídeo
     command = [
         'ffmpeg',
         '-y',
@@ -28,10 +30,15 @@ def iniciar_streaming():
         '-b:v', '800k',
         '-bufsize', '800k',
         '-f', 'flv',
+        '-flvflags', 'no_duration_filesize',  # Adiciona a flag para ignorar a duração e o tamanho do arquivo
         'rtmp://192.168.115.148/live/stream'
     ]
 
-    proc = subprocess.Popen(command, stdin=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+    try:
+        proc = subprocess.Popen(command, stdin=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+    except Exception as e:
+        print(f"Erro ao iniciar o subprocesso ffmpeg: {e}")
+        return
 
     while cap.isOpened():
         ret, frame = cap.read()
