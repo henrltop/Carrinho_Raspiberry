@@ -32,14 +32,23 @@ def iniciar_streaming():
         'rtmp://192.168.115.148/live/stream'
     ]
 
-    proc = subprocess.Popen(command, stdin=subprocess.PIPE, stderr=subprocess.PIPE)
-    
+    try:
+        proc = subprocess.Popen(command, stdin=subprocess.PIPE, stderr=subprocess.PIPE)
+    except Exception as e:
+        print(f"Erro ao iniciar o subprocesso ffmpeg: {e}")
+        return
+
     while cap.isOpened():
         ret, frame = cap.read()
         if not ret:
             print("Erro ao ler o frame")
             break
-        proc.stdin.write(frame.tobytes())
+
+        try:
+            proc.stdin.write(frame.tobytes())
+        except Exception as e:
+            print(f"Erro ao enviar frame para ffmpeg: {e}")
+            break
 
     cap.release()
     proc.stdin.close()
