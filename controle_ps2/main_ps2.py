@@ -29,9 +29,9 @@ BUTTON_O = 1
 BUTTON_TRIANGLE = 0
 BUTTON_SQUARE = 3
 BUTTON_L1 = 4
-BUTTON_L2 = 6
+BUTTON_L2 = 6  # Gatilho esquerdo para alternar direção
 BUTTON_R1 = 5  # Botão em cima do gatilho direito
-BUTTON_R2 = 7  # Gatilho direito
+BUTTON_R2 = 7  # Gatilho direito para andar
 
 # Variável para armazenar a velocidade atual
 velocidade_atual = 0
@@ -47,12 +47,6 @@ def aumentar_velocidade():
         if velocidade_atual > 100:
             velocidade_atual = 100
         print(f"Aumentando velocidade para {velocidade_atual}")
-        if modo_re:
-            motores_tras(velocidade_atual)
-        else:
-            motores_frente(velocidade_atual)
-    else:
-        print("Velocidade máxima atingida")
 
 # Função para diminuir a velocidade
 def diminuir_velocidade():
@@ -62,12 +56,6 @@ def diminuir_velocidade():
         if velocidade_atual < 0:
             velocidade_atual = 0
         print(f"Diminuindo velocidade para {velocidade_atual}")
-        if modo_re:
-            motores_tras(velocidade_atual)
-        else:
-            motores_frente(velocidade_atual)
-    else:
-        print("Velocidade mínima atingida")
 
 # Função para alternar o modo de ré
 def alternar_modo_re():
@@ -78,10 +66,8 @@ def alternar_modo_re():
     modo_re = not modo_re
     if modo_re:
         print("Modo de ré ativado")
-        motores_tras(velocidade_atual)
     else:
         print("Modo de ré desativado")
-        motores_frente(velocidade_atual)
 
 # Função para parar completamente
 def parar_completamente():
@@ -89,6 +75,13 @@ def parar_completamente():
     velocidade_atual = 0
     print("Parando completamente")
     motores_parar()
+
+# Função para controlar movimento
+def controlar_movimento():
+    if modo_re:
+        motores_tras(velocidade_atual)
+    else:
+        motores_frente(velocidade_atual)
 
 # Loop principal
 try:
@@ -111,13 +104,14 @@ try:
                     aumentar_velocidade()
                 elif joystick.get_button(BUTTON_L1):  # Botão em cima do gatilho esquerdo
                     diminuir_velocidade()
-                elif joystick.get_button(BUTTON_R2):  # Gatilho direito
+                elif joystick.get_button(BUTTON_L2):  # Gatilho esquerdo
                     alternar_modo_re()
                 elif joystick.get_button(BUTTON_SQUARE):  # Botão Quadrado
                     parar_completamente()
 
             if event.type == pygame.JOYAXISMOTION:
                 axis_0 = joystick.get_axis(0)  # Eixo horizontal do joystick esquerdo
+                r2_pressed = joystick.get_axis(5) > 0.5  # Verifica se o gatilho direito está pressionado
 
                 if axis_0 < -0.1:
                     velocidade_curva = int(abs(axis_0) * velocidade_atual)
@@ -128,9 +122,14 @@ try:
                     print(f"Virando à direita com velocidade {velocidade_curva}")
                     virar_direita(velocidade_curva)
                 else:
-                    if not (joystick.get_button(BUTTON_R1) or joystick.get_button(BUTTON_L1)):
+                    if not r2_pressed:
                         print("Parando motores - joystick centralizado")
                         motores_parar()
+
+                if r2_pressed:
+                    controlar_movimento()
+                else:
+                    motores_parar()
 
 except KeyboardInterrupt:
     cleanup()
