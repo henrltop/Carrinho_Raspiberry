@@ -3,6 +3,7 @@ import sys
 from rodas import motores_frente, motores_tras, motores_parar, virar_esquerda, virar_direita, cleanup
 from camera import tirar_foto, iniciar_gravacao, parar_gravacao
 from truques import volta_360
+from time import sleep
 
 # Inicializa o Pygame
 pygame.init()
@@ -119,13 +120,17 @@ try:
                 axis_0 = joystick.get_axis(0)  # Eixo horizontal do joystick esquerdo
 
                 if axis_0 < -0.1:
-                    print(f"Virando à esquerda com intensidade {int(abs(axis_0) * 100)}")
-                    virar_esquerda(int(abs(axis_0) * 100))
+                    velocidade_curva = int(abs(axis_0) * velocidade_atual)
+                    print(f"Virando à esquerda com velocidade {velocidade_curva}")
+                    virar_esquerda(velocidade_curva)
                 elif axis_0 > 0.1:
-                    print(f"Virando à direita com intensidade {int(abs(axis_0) * 100)}")
-                    virar_direita(int(abs(axis_0) * 100))
+                    velocidade_curva = int(abs(axis_0) * velocidade_atual)
+                    print(f"Virando à direita com velocidade {velocidade_curva}")
+                    virar_direita(velocidade_curva)
                 else:
-                    motores_parar()
+                    if not (joystick.get_button(BUTTON_R1) or joystick.get_button(BUTTON_L1)):
+                        print("Parando motores - joystick centralizado")
+                        motores_parar()
 
 except KeyboardInterrupt:
     cleanup()
