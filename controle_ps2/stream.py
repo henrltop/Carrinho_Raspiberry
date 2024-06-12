@@ -62,3 +62,4 @@ def iniciar_streaming():
 
 if __name__ == "__main__":
     iniciar_streaming()
+    
