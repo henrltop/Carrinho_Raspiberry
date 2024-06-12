@@ -54,6 +54,8 @@ try:
                 axis_1 = joystick.get_axis(1)  # Eixo vertical do joystick esquerdo
                 axis_3 = joystick.get_axis(3)  # Eixo vertical do joystick direito
 
+                print(f"Leitura dos eixos: axis_1 = {axis_1}, axis_3 = {axis_3}")
+
                 # Mapear valores do joystick (-1 a 1) para duty cycle PWM (0 a 100)
                 velocidade_frente_tras = int((abs(axis_1) * 100))
                 velocidade_esquerda_direita = int((abs(axis_3) * 100))
@@ -65,6 +67,7 @@ try:
                     print(f"Movendo para trás com velocidade {velocidade_frente_tras}")
                     motores_tras(velocidade_frente_tras)
                 else:
+                    print("Parando motores - eixo vertical centralizado")
                     motores_parar()
 
                 if axis_3 < -0.1:
@@ -74,6 +77,7 @@ try:
                     print(f"Virando à direita com velocidade {velocidade_esquerda_direita}")
                     virar_direita(velocidade_esquerda_direita)
                 else:
+                    print("Parando motores - eixo horizontal centralizado")
                     motores_parar()
 
 except KeyboardInterrupt:
