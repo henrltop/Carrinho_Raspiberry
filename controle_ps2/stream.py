@@ -7,16 +7,27 @@ def iniciar_streaming():
         print("Erro ao abrir a câmera")
         return
 
+    # Reduzir a resolução e a taxa de quadros para melhorar o desempenho
+    width = 320
+    height = 240
+    fps = 15
+
+    cap.set(cv2.CAP_PROP_FRAME_WIDTH, width)
+    cap.set(cv2.CAP_PROP_FRAME_HEIGHT, height)
+    cap.set(cv2.CAP_PROP_FPS, fps)
+
     command = [
         'ffmpeg',
         '-y',
         '-f', 'rawvideo',
         '-vcodec', 'rawvideo',
         '-pix_fmt', 'bgr24',
-        '-s', '640x480',
-        '-r', '20',
+        '-s', f'{width}x{height}',
+        '-r', str(fps),
         '-i', '-',
         '-c:v', 'libx264',
+        '-b:v', '800k',
+        '-bufsize', '800k',
         '-f', 'flv',
         'rtmp://192.168.115.148/live/stream'
     ]
