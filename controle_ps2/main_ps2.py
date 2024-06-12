@@ -109,27 +109,23 @@ try:
                 elif joystick.get_button(BUTTON_SQUARE):  # Botão Quadrado
                     parar_completamente()
 
-            if event.type == pygame.JOYAXISMOTION:
-                axis_0 = joystick.get_axis(0)  # Eixo horizontal do joystick esquerdo
-                r2_pressed = joystick.get_axis(5) > 0.5  # Verifica se o gatilho direito está pressionado
+        axis_0 = joystick.get_axis(0)  # Eixo horizontal do joystick esquerdo
+        r2_value = joystick.get_axis(5)  # Eixo do gatilho direito
 
-                if axis_0 < -0.1:
-                    velocidade_curva = int(abs(axis_0) * velocidade_atual)
-                    print(f"Virando à esquerda com velocidade {velocidade_curva}")
-                    virar_esquerda(velocidade_curva)
-                elif axis_0 > 0.1:
-                    velocidade_curva = int(abs(axis_0) * velocidade_atual)
-                    print(f"Virando à direita com velocidade {velocidade_curva}")
-                    virar_direita(velocidade_curva)
-                else:
-                    if not r2_pressed:
-                        print("Parando motores - joystick centralizado")
-                        motores_parar()
-
-                if r2_pressed:
-                    controlar_movimento()
-                else:
-                    motores_parar()
+        # Verificar se o gatilho direito está pressionado
+        if r2_value > -0.5:  # Alguns controladores retornam valores negativos, ajuste conforme necessário
+            if axis_0 < -0.1:
+                velocidade_curva = int(abs(axis_0) * velocidade_atual)
+                print(f"Virando à esquerda com velocidade {velocidade_curva}")
+                virar_esquerda(velocidade_curva)
+            elif axis_0 > 0.1:
+                velocidade_curva = int(abs(axis_0) * velocidade_atual)
+                print(f"Virando à direita com velocidade {velocidade_curva}")
+                virar_direita(velocidade_curva)
+            else:
+                controlar_movimento()
+        else:
+            motores_parar()
 
 except KeyboardInterrupt:
     cleanup()
