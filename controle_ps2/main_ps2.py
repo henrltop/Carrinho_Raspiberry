@@ -1,8 +1,9 @@
 import pygame
 import sys
-from rodas import motores_frente, motores_tras, motores_parar, virar_esquerda, virar_direita, cleanup
+from rodas import motores_frente, motores_parar, cleanup
 from camera import tirar_foto, iniciar_gravacao, parar_gravacao
 from truques import volta_360
+from time import sleep
 
 # Inicializa o Pygame
 pygame.init()
@@ -32,6 +33,21 @@ BUTTON_L2 = 6
 BUTTON_R1 = 5
 BUTTON_R2 = 7
 
+# Variável para armazenar a velocidade atual
+velocidade_atual = 0
+
+# Função para aumentar a velocidade
+def aumentar_velocidade():
+    global velocidade_atual
+    if velocidade_atual < 100:
+        velocidade_atual += 10
+        if velocidade_atual > 100:
+            velocidade_atual = 100
+        print(f"Aumentando velocidade para {velocidade_atual}")
+        motores_frente(velocidade_atual)
+    else:
+        print("Velocidade máxima atingida")
+
 # Loop principal
 try:
     recording = False
@@ -49,36 +65,16 @@ try:
                         recording = False
                 elif joystick.get_button(BUTTON_TRIANGLE):
                     volta_360()
-            
-            if event.type == pygame.JOYAXISMOTION:
-                axis_1 = joystick.get_axis(1)  # Eixo vertical do joystick esquerdo
-                axis_3 = joystick.get_axis(3)  # Eixo vertical do joystick direito
+                elif joystick.get_button(BUTTON_R2):
+                    while joystick.get_button(BUTTON_R2):
+                        aumentar_velocidade()
+                        sleep(0.5)  # Incremento a cada 0.5 segundos
 
-                print(f"Leitura dos eixos: axis_1 = {axis_1}, axis_3 = {axis_3}")
-
-                # Mapear valores do joystick (-1 a 1) para duty cycle PWM (0 a 100)
-                velocidade_frente_tras = int((abs(axis_1) * 100))
-                velocidade_esquerda_direita = int((abs(axis_3) * 100))
-
-                if axis_1 < -0.1:
-                    print(f"Movendo para frente com velocidade {velocidade_frente_tras}")
-                    motores_frente(velocidade_frente_tras)
-                elif axis_1 > 0.1:
-                    print(f"Movendo para trás com velocidade {velocidade_frente_tras}")
-                    motores_tras(velocidade_frente_tras)
-                else:
-                    print("Parando motores - eixo vertical centralizado")
+            if event.type == pygame.JOYBUTTONUP:
+                if event.button == BUTTON_R2:
+                    print("Parando motores - botão R2 liberado")
                     motores_parar()
-
-                if axis_3 < -0.1:
-                    print(f"Virando à esquerda com velocidade {velocidade_esquerda_direita}")
-                    virar_esquerda(velocidade_esquerda_direita)
-                elif axis_3 > 0.1:
-                    print(f"Virando à direita com velocidade {velocidade_esquerda_direita}")
-                    virar_direita(velocidade_esquerda_direita)
-                else:
-                    print("Parando motores - eixo horizontal centralizado")
-                    motores_parar()
+                    velocidade_atual = 0
 
 except KeyboardInterrupt:
     cleanup()
