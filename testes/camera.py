@@ -1,4 +1,4 @@
-from flask import Flask, Response
+from flask import Flask, Response, render_template_string
 import cv2
 import subprocess
 import numpy as np
@@ -48,9 +48,17 @@ def camera_feed():
 
 @app.route('/')
 def index():
-    return '''<h1>Stream is running</h1>
-              <p>Navigate to <a href="/screen_feed">Screen Feed</a> to see the screen stream.</p>
-              <p>Navigate to <a href="/camera_feed">Camera Feed</a> to see the camera stream.</p>'''
+    return render_template_string('''
+        <h1>Stream is running</h1>
+        <div>
+            <h2>Screen Feed</h2>
+            <img src="{{ url_for('screen_feed') }}" width="640" height="360">
+        </div>
+        <div>
+            <h2>Camera Feed</h2>
+            <img src="{{ url_for('camera_feed') }}" width="640" height="360">
+        </div>
+    ''')
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
