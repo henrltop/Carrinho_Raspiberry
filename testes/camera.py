@@ -1,20 +1,22 @@
 import cv2
 
 def open_camera():
-    cap = cv2.VideoCapture(2)
+    cap = cv2.VideoCapture(2)  # Use a nova câmera conectada
     
-    # Definir a resolução para 720p
-    cap.set(cv2.CAP_PROP_FRAME_WIDTH, 1280)
-    cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 720)
+    # Ajuste incremental de resolução e taxa de quadros
+    for width, height in [(1280, 720), (640, 480)]:
+        cap.set(cv2.CAP_PROP_FRAME_WIDTH, width)
+        cap.set(cv2.CAP_PROP_FRAME_HEIGHT, height)
+        actual_width = cap.get(cv2.CAP_PROP_FRAME_WIDTH)
+        actual_height = cap.get(cv2.CAP_PROP_FRAME_HEIGHT)
+        print(f"Tentando resolução: {width}x{height}, Configurada: {actual_width}x{actual_height}")
+        
+        if actual_width == width and actual_height == height:
+            break
     
-    # Definir a taxa de quadros para 30 fps
     cap.set(cv2.CAP_PROP_FPS, 30)
-    
-    # Verificar configurações
-    width = cap.get(cv2.CAP_PROP_FRAME_WIDTH)
-    height = cap.get(cv2.CAP_PROP_FRAME_HEIGHT)
-    fps = cap.get(cv2.CAP_PROP_FPS)
-    print(f"Resolução: {width}x{height}, FPS: {fps}")
+    actual_fps = cap.get(cv2.CAP_PROP_FPS)
+    print(f"FPS configurado: {actual_fps}")
     
     if not cap.isOpened():
         print("Cannot open camera")
