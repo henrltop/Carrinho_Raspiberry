@@ -1,7 +1,12 @@
 from flask import Flask, Response
-import cv2
 import subprocess
 import numpy as np
+from camera import show_camera
+
+
+show_camera()
+
+
 
 app = Flask(__name__)
 
@@ -22,14 +27,14 @@ def capture_screen():
         yield (b'--frame\r\n'
                b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n\r\n')
 
-@app.route('/video_feed')
-def video_feed():
+@app.route('/screen_feed')
+def screen_feed():
     return Response(capture_screen(),
                     mimetype='multipart/x-mixed-replace; boundary=frame')
 
 @app.route('/')
 def index():
-    return "Stream is running. Navigate to /video_feed to see the stream."
+    return "Stream is running. Navigate to /screen_feed to see the screen stream."
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
