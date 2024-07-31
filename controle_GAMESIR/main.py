@@ -7,9 +7,9 @@
 ###############################################################################
 
 import pygame
-from rodas import motores_frente, motores_tras, motores_parar, virar_esquerda, virar_direita, cleanup
-from camera import tirar_foto, iniciar_gravacao, parar_gravacao, fechar_camera
-from truques import volta_360
+from Carrinho_Raspiberry.active.rodas import motores_frente, motores_tras, motores_parar, virar_esquerda, virar_direita, cleanup
+from Carrinho_Raspiberry.active.camera import tirar_foto, iniciar_gravacao, parar_gravacao, fechar_camera
+from Carrinho_Raspiberry.active.truques import volta_360
 
 # Inicializar o pygame
 pygame.init()
@@ -30,10 +30,10 @@ try:
                 axis_0 = joystick.get_axis(0)
                 # Eixo 1 (frente/trás) do joystick esquerdo para controle de movimento
                 axis_1 = joystick.get_axis(1)
-                # Eixo 4 (RT) para controle de velocidade
-                axis_4 = joystick.get_axis(4)
                 # Eixo 2 (esquerda/direita) do joystick direito para controle de direção
                 axis_2 = joystick.get_axis(2)
+                # Eixo 4 (RT) para controle de velocidade
+                axis_4 = joystick.get_axis(4)
 
                 # Controle da velocidade com o gatilho direito (RT)
                 velocidade = int((axis_4 + 1) * 50)  # RT varia de -1 a 1, ajuste para variar de 0 a 100
