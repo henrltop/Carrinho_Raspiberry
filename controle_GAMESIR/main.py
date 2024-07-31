@@ -7,9 +7,9 @@
 ###############################################################################
 
 import pygame
-from Carrinho_Raspiberry.active.rodas import motores_frente, motores_tras, motores_parar, virar_esquerda, virar_direita, cleanup
-from Carrinho_Raspiberry.active.camera import tirar_foto, iniciar_gravacao, parar_gravacao, fechar_camera
-from Carrinho_Raspiberry.active.truques import volta_360
+from rodas import motores_frente, motores_tras, motores_parar, virar_esquerda, virar_direita, cleanup
+from camera import tirar_foto, iniciar_gravacao, parar_gravacao, fechar_camera
+from truques import volta_360
 
 # Inicializar o pygame
 pygame.init()
