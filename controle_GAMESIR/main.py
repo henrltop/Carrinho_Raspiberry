@@ -7,9 +7,9 @@
 ###############################################################################
 
 import pygame
-from rodas import motores_frente, motores_tras, motores_parar, virar_esquerda, virar_direita, cleanup
-from camera import tirar_foto, iniciar_gravacao, parar_gravacao, fechar_camera
-from truques import volta_360
+from Carrinho_Raspiberry.active.rodas import motores_frente, motores_tras, motores_parar, virar_esquerda, virar_direita, cleanup
+from Carrinho_Raspiberry.active.camera import tirar_foto, iniciar_gravacao, parar_gravacao, fechar_camera
+from Carrinho_Raspiberry.active.truques import volta_360
 
 # Inicializar o pygame
 pygame.init()
@@ -26,30 +26,33 @@ try:
     while True:
         for event in pygame.event.get():
             if event.type == pygame.JOYAXISMOTION:
-                # Eixo 0 (esquerda/direita) do joystick esquerdo para rotação
+                # Eixo 0 (esquerda/direita) do joystick esquerdo para controle de direção
                 axis_0 = joystick.get_axis(0)
-                # Eixo 4 (RT) para aceleração
+                # Eixo 1 (frente/trás) do joystick esquerdo para controle de movimento
+                axis_1 = joystick.get_axis(1)
+                # Eixo 4 (RT) para controle de velocidade
                 axis_4 = joystick.get_axis(4)
-                
-                # Controle da velocidade com o gatilho direito (RT)
-                velocidade = int((abs(axis_4) * 100))
+                # Eixo 2 (esquerda/direita) do joystick direito para controle de direção
+                axis_2 = joystick.get_axis(2)
 
-                # Controle do movimento
-                if axis_4 < -0.1:
+                # Controle da velocidade com o gatilho direito (RT)
+                velocidade = int((axis_4 + 1) * 50)  # RT varia de -1 a 1, ajuste para variar de 0 a 100
+
+                # Controle do movimento frente/trás com o joystick esquerdo
+                if axis_1 < -0.1:
                     print("Movendo para frente")
                     motores_frente(velocidade)
-                elif axis_4 > 0.1:
+                elif axis_1 > 0.1:
                     print("Movendo para trás")
                     motores_tras(velocidade)
                 else:
-                    print("Parando")
                     motores_parar()
-                
-                # Controle da direção com o joystick esquerdo
-                if axis_0 < -0.1:
+
+                # Controle da direção com o joystick direito
+                if axis_2 < -0.1:
                     print("Virando à esquerda")
                     virar_esquerda(velocidade)
-                elif axis_0 > 0.1:
+                elif axis_2 > 0.1:
                     print("Virando à direita")
                     virar_direita(velocidade)
 
