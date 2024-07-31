@@ -37,6 +37,7 @@ try:
 
                 # Controle da velocidade com o gatilho direito (RT)
                 velocidade = int((axis_4 + 1) * 50)  # RT varia de -1 a 1, ajuste para variar de 0 a 100
+                print(velocidade)
 
                 # Controle do movimento frente/trás com o joystick esquerdo
                 if axis_1 < -0.1:
